@@ -14,11 +14,11 @@ contract FlashLoanSimple is FlashLoanSimpleReceiverBase {
         owner = payable(msg.sender);
     }
 
-    function fn_RequestFlashLoan(address _asset, uint256 _amount) public {
+    function requestFlashLoan(address _asset, uint256 _amount) public {
         address receiverAddress = address(this);
         address asset = _asset;
         uint256 amount = _amount * 10 ** ERC20(_asset).decimals();
-        bytes memory params = "";
+        bytes memory params;
         uint16 referralCode = 0;
 
         POOL.flashLoanSimple(receiverAddress, asset, amount, params, referralCode);
@@ -31,7 +31,9 @@ contract FlashLoanSimple is FlashLoanSimpleReceiverBase {
         address initiator,
         bytes calldata params
     ) external override returns (bool) {
+
         // Your customized codes.
+        
         uint256 amount = _amount * 10 ** ERC20(_asset).decimals();
         uint256 premium = amount * 9 / 10000;
         uint256 totalAmount = amount + premium;
